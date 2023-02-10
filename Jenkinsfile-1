@@ -12,11 +12,11 @@ pipeline {
          script {
           scannerHome = tool 'sonarqube'
         }
-        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]){
+        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'AFOLABI_TOKEN')]){
         withSonarQubeEnv('SonarQubeScanner') {
           sh " ${scannerHome}/bin/sonar-scanner \
           -Dsonar.projectKey=CLiXX-App-Afolabi   \
-          -Dsonar.login=${SONAR_TOKEN} "
+          -Dsonar.login=${AFOLABI_TOKEN} "
         }
         }
         }
@@ -25,7 +25,7 @@ pipeline {
 
  stage('Quality Gate') {
             steps {
-                timeout(time: 3, unit: 'MINUTES') {
+                timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: true
             }
             }
