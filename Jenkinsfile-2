@@ -7,54 +7,54 @@ pipeline {
     }
 
     stages {
-        stage ('Sonarcube Scan') {
-        steps {
-         script {
-          scannerHome = tool 'sonarqube'
-        }
-        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'AFOLABI_TOKEN')]){
-        withSonarQubeEnv('SonarQubeScanner') {
-          sh " ${scannerHome}/bin/sonar-scanner \
-          -Dsonar.projectKey=Clixx-App-Afolabi   \
-          -Dsonar.login=${AFOLABI_TOKEN} "
-        }
-        }
-         }
-
-}
-
-//  stage('Quality Gate') {
-//             steps {
-//                 timeout(time: 3, unit: 'MINUTES') {
-//                     waitForQualityGate abortPipeline: true
-//             }
-//             }
+//         stage ('Sonarcube Scan') {
+//         steps {
+//          script {
+//           scannerHome = tool 'sonarqube'
 //         }
+//         withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'AFOLABI_TOKEN')]){
+//         withSonarQubeEnv('SonarQubeScanner') {
+//           sh " ${scannerHome}/bin/sonar-scanner \
+//           -Dsonar.projectKey=Clixx-App-Afolabi   \
+//           -Dsonar.login=${AFOLABI_TOKEN} "
+//         }
+//         }
+//          }
 
-//           stage ('Build Docker Image') {
-//           steps {
+// }
+
+ stage('Quality Gate') {
+            steps {
+                timeout(time: 3, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+            }
+            }
+        }
+
+          stage ('Build Docker Image') {
+          steps {
 //             // script{
 //             //  dockerHome= tool 'docker-inst'
 //             // }
 //             //  sh "${dockerHome}/bin/docker build . -t clixx-image:$VERSION "
-//             sh "docker build . -t clixx-image:$VERSION "
-//           }
-//         }
+            sh "docker build . -t clixx-image:$VERSION "
+          }
+        }
 
-//   stage ('Starting Docker Image') {
-//           steps {
-//               sh '''
-//               if ( docker ps|grep clixx-cont ) then
-//                  echo "Docker image exists, killing it"
-//                  docker stop clixx-cont
-//                  docker rm clixx-cont
-//                  docker run --name clixx-cont  -p 80:80 -d clixx-image:$VERSION
-//               else
-//                  docker run --name clixx-cont  -p 80:80 -d clixx-image:$VERSION 
-//               fi
-//               '''
-//           }
-//         }
+  stage ('Starting Docker Image') {
+          steps {
+              sh '''
+              if ( docker ps|grep clixx-cont ) then
+                 echo "Docker image exists, killing it"
+                 docker stop clixx-cont
+                 docker rm clixx-cont
+                 docker run --name clixx-cont  -p 80:80 -d clixx-image:$VERSION
+              else
+                 docker run --name clixx-cont  -p 80:80 -d clixx-image:$VERSION 
+              fi
+              '''
+          }
+        }
 
 //   stage ('Restore CliXX Database') {
 //           steps {
@@ -90,15 +90,15 @@ pipeline {
 //           }
 //         }
 
-        stage ('Deployment Tear Down Prompt ') {
-                            steps {
-                                script {
-                                def userInput = input(id: 'confirm', message: 'Please Test CliXX Image Deployment. Should I delete now?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Tear Down App', name: 'confirm'] ])
-                            }
-                            sh " docker stop clixx-cont"
-                            sh " docker rm  clixx-cont"
-                        }
-                    }
+        // stage ('Deployment Tear Down Prompt ') {
+        //                     steps {
+        //                         script {
+        //                         def userInput = input(id: 'confirm', message: 'Please Test CliXX Image Deployment. Should I delete now?', parameters: [ [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Tear Down App', name: 'confirm'] ])
+        //                     }
+        //                     sh " docker stop clixx-cont"
+        //                     sh " docker rm  clixx-cont"
+        //                 }
+        //             }
 
     }
 }
