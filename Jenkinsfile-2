@@ -7,8 +7,8 @@ pipeline {
     }
 
     stages {
-        stage ('Sonarcube Scan') {
-        st
+         stage ('Sonarcube Scan') {
+        steps {
          script {
           scannerHome = tool 'sonarqube'
         }
@@ -19,7 +19,7 @@ pipeline {
           -Dsonar.login=${SONAR_TOKEN} "
         }
         }
-         }
+        }
 
 }
 
