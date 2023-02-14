@@ -5,7 +5,7 @@
     #become: ec2-user
     vars:
       instance_id: wordpressdbclixxjenkins
-      db_snapshot: wordpressdbclixxjenkinsafolabi
+      db_snapshot: wordpressdbclixxjenkins
       security_group: sg-0412d3bb401305d55
     tasks:
        - name: Restore DB from snapshot
