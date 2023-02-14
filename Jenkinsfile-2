@@ -34,6 +34,7 @@ pipeline {
 
           stage ('Build Docker Image') {
           steps {
+            slackSend (color: '#FFFF00', message: "Building the Docker image : '${RUNNER}' Job [${env.BUILD_NUMBER}]- ${env.BUILD_URL}")
             // script{
             //  dockerHome= tool 'docker-inst'
             // }
