@@ -8,21 +8,21 @@ pipeline {
     }
 
     stages {
-        stage ('Sonarcube Scan') {
-        steps {
-         script {
-          scannerHome = tool 'sonarqube'
-        }
-        withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]){
-        withSonarQubeEnv('SonarQubeScanner') {
-          sh " ${scannerHome}/bin/sonar-scanner \
-          -Dsonar.projectKey=Clixx-App-Afolabi   \
-          -Dsonar.login=${SONAR_TOKEN} "
-        }
-        }
-        }
+//         stage ('Sonarcube Scan') {
+//         steps {
+//          script {
+//           scannerHome = tool 'sonarqube'
+//         }
+//         withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]){
+//         withSonarQubeEnv('SonarQubeScanner') {
+//           sh " ${scannerHome}/bin/sonar-scanner \
+//           -Dsonar.projectKey=Clixx-App-Afolabi   \
+//           -Dsonar.login=${SONAR_TOKEN} "
+//         }
+//         }
+//         }
 
-}
+// }
 
 //  stage('Quality Gate') {
 //             steps {
